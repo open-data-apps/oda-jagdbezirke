@@ -60,7 +60,7 @@ Die App ist kompatibel mit kommunalen Jagdbezirks-Datensätzen als GeoJSON (WGS8
 | Quelle | Format | Zugang |
 | ------ | ------ | ------ |
 | Jagdbezirke Wetteraukreis (Standard) | GeoJSON via OGC API Features | `.../collections/ft1:Jagdbezirke/items?f=json` |
-| Jagdbezirkskarte Essen | statische GeoJSON-Datei (WGS84) | Direktdownload via opendata.essen.de |
+| Jagdbezirkskarte Essen | statische GeoJSON-Datei (WGS84) | Direktdownload via opendata.essen.de (kein CORS → `proxyAktiv: ja`) |
 
 Die Feldnamen der Revier-Properties werden generisch dargestellt (keine Feldannahmen); URL-Werte werden als Links gerendert. Lizenzen sind je Quelle zu prüfen (Wetteraukreis/Essen: dl-de/by-2-0 mit Namensnennung).
 

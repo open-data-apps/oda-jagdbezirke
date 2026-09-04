@@ -515,7 +515,7 @@ async function ladeReviere(state) {
     const box = jbEl(state, "revierhinweis");
     const err = document.createElement("div");
     if (box && box.parentNode) box.parentNode.insertBefore(err, box.nextSibling);
-    renderOdasFehler(err, error, { url, label: "Jagdbezirke (GeoJSON)", erwarteterTyp: "csv-zip" });
+    renderOdasFehler(err, error, { url, label: "Jagdbezirke (GeoJSON)", erwarteterTyp: "geojson" });
   }
   aktualisiereKpis(state);
 }
@@ -1074,6 +1074,7 @@ const TYP_BEZEICHNUNG = {
   "ckan-dl": "Datei-Download",
   "ods21": "Open-Data-Suche (API v2.1)",
   "wfs": "Kartendienst (WFS)",
+  "geojson": "GeoJSON-Abruf (Datei oder OGC API)",
   "sparql": "Wissensdatenbank (SPARQL)",
   "csv-zip": "Statische Datei"
 };
@@ -1087,6 +1088,7 @@ function validateUrlTypErwartung(url, erwarteterTyp) {
     "ckan-dl": /\/dataset\/.*\/resource\/.*\/download\//i,
     "ods21": /\/api\/explore\/v2\.1\//i,
     "wfs": /service=WFS/i,
+    "geojson": /\.geojson(\?|$)|[?&]f=json\b|\/items(\?|$)/i,
     "sparql": /\/api\/ts\/v1\/kg\/sparql/i,
     "csv-zip": /\.(csv|json|zip)(\?|$)/i
   };

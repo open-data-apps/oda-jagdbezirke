@@ -314,7 +314,7 @@
     "proxyAktiv": {
       "label": "ODAS-Proxy aktivieren",
       "category": "datenherkunft",
-      "hilfe": "Mit ja läuft der Revier-Abruf über den ODAS-Proxy /odp-data (nur im ODAS-Live-System; beide Standard-Quellen sind in der Origin-Allowlist, da sie als apiurls-Einträge konfiguriert sind). Mit nein direkt im Browser (Standard-Quellen erlauben CORS). Lokal immer nein testen. Der DZT-Abruf nutzt immer den Store-Relay /dzt, unabhängig von dieser Einstellung.",
+      "hilfe": "Mit ja läuft der Revier-Abruf über den ODAS-Proxy /odp-data (nur im ODAS-Live-System; jede als apiurls-Eintrag konfigurierte Quelle ist in der Origin-Allowlist). Mit nein direkt im Browser (braucht CORS der Quelle: Geoportal Hessen und raw.githubusercontent erlauben CORS, opendata.essen.de nicht – für Essen daher ja wählen). Lokal immer nein testen. Der DZT-Abruf nutzt immer den Store-Relay /dzt, unabhängig von dieser Einstellung.",
       "default": "nein",
       "format": {
         "typ": "dropdown",
