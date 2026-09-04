@@ -1,0 +1,73 @@
+{
+  "$schema": "https://frictionlessdata.io/schemas/table-schema.json",
+  "fields": [
+    {
+      "name": "name",
+      "title": "Name",
+      "type": "string",
+      "description": "Name des Forstamts oder Forstreviers (DZT Knowledge Graph)",
+      "constraints": { "required": true }
+    },
+    {
+      "name": "strasse",
+      "title": "Straße",
+      "type": "string",
+      "description": "Straße und Hausnummer aus der DZT-Adresse"
+    },
+    {
+      "name": "plz",
+      "title": "PLZ",
+      "type": "string",
+      "description": "Postleitzahl aus der DZT-Adresse"
+    },
+    {
+      "name": "ort",
+      "title": "Ort",
+      "type": "string",
+      "description": "Ortsname aus der DZT-Adresse"
+    },
+    {
+      "name": "telefon",
+      "title": "Telefon",
+      "type": "string",
+      "description": "Telefonnummer des Forstamts (sofern im DZT vorhanden)"
+    },
+    {
+      "name": "email",
+      "title": "E-Mail",
+      "type": "string",
+      "description": "E-Mail-Adresse des Forstamts (sofern im DZT vorhanden)"
+    },
+    {
+      "name": "webseite",
+      "title": "Webseite",
+      "type": "string",
+      "description": "Webseite des Forstamts (sofern im DZT vorhanden)"
+    },
+    {
+      "name": "beschreibung",
+      "title": "Beschreibung",
+      "type": "string",
+      "description": "Beschreibungstext des Forstamts aus dem DZT-Datensatz (wird in der Detailansicht gezeigt)"
+    },
+    {
+      "name": "entfernung_km",
+      "title": "Entfernung (km)",
+      "type": "number",
+      "description": "Luftlinien-Entfernung vom konfigurierten Ort, clientseitig berechnet"
+    },
+    {
+      "name": "latitude",
+      "title": "Breitengrad",
+      "type": "number",
+      "description": "WGS84-Breitengrad aus dem DZT-Datensatz"
+    },
+    {
+      "name": "longitude",
+      "title": "Längengrad",
+      "type": "number",
+      "description": "WGS84-Längengrad aus dem DZT-Datensatz"
+    }
+  ],
+  "missingValues": [""]
+}

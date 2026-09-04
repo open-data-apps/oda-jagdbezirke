@@ -1,0 +1,392 @@
+{
+  "app-entwickler-id": "12343",
+  "app-entwickler-name": "ondics-gmbh",
+  "name-in-url": "jagdbezirke",
+  "name": "Jagdbezirke",
+  "app-version": "1.0.0",
+  "app-package-version": "2",
+  "odas-app-icon": "assets/odas-app-icon.svg",
+  "app-icon": "assets/odas-app-icon.svg",
+  "kurzbeschreibung": "Die Jagdbezirke-App zeigt Jagdrevier-Grenzen einer kommunalen Quelle auf der Karte, findet die Forstämter in der Nähe und erklärt Schonzeiten sowie richtiges Verhalten im Jagdgebiet.",
+  "beschreibung": [
+    "_multiline_",
+    "Die Jagdbezirke-App zeigt die Jagdrevier-Grenzen der verknüpften kommunalen Quelle auf einer interaktiven Karte, findet die nächstgelegenen Forstämter und Forstreviere aus dem Knowledge Graph der Deutschen Zentrale für Tourismus (DZT) und erklärt in einem Ratgeber-Teil die gesetzlichen Schonzeiten sowie das richtige Verhalten im Jagdgebiet.",
+    "",
+    "Für wen ist diese App? Sie richtet sich an Spaziergängerinnen und Spaziergänger, Hundehalter, Reiterinnen und Reiter sowie Kommunen und Tourismusstellen, die wissen möchten, wo Jagdgebiete liegen und an wen man sich wenden kann. Besondere Datenkenntnisse sind für die Nutzung nicht erforderlich.",
+    "",
+    "## Methodik",
+    "",
+    "Der konfigurierte Ort wird beim Start über die Geokodierungs-Schnittstelle von OpenStreetMap (Nominatim) aufgelöst. Mit den Koordinaten stellt die App eine Umkreisabfrage an den DZT Knowledge Graph und lädt Forstamt-POIs mit Adresse und Kontakt in der Nähe. Parallel lädt sie die konfigurierte Revier-GeoJSON (Standard: Wetteraukreis) und zeichnet die Bezirksgrenzen als Polygone auf dieselbe Leaflet-Karte. Ist keine Revier-Quelle verknüpft, arbeitet die App im DZT-pur-Modus weiter und weist darauf hin.",
+    "",
+    "Die Schonzeiten-Tabelle bildet den Bundesrahmen ab; je Bundesland gelten abweichende Zeiten (Landesrecht). Die App gibt keine Rechtsberatung, sondern nennt die zuständige Stelle (Forstamt, untere Jagdbehörde). KPI-Kacheln fassen zusammen: Anzahl Forstämter im Umkreis, nächstes Amt mit Entfernung, Anzahl Reviere und aktuell geltende Schonzeiten in diesem Monat.",
+    "",
+    "## Datenquelle",
+    "",
+    "Die Forstamt-Kontakte stammen aus dem DZT Knowledge Graph, die Reviergrenzen aus der verknüpften kommunalen Quelle (Standard: Wetteraukreis):",
+    "",
+    "- **Open Data Portal (DZT):** [Open Data Destination Germany](https://open-data-germany.org/knowledge-graphen/)",
+    "- **Datensatz (DZT):** [DZT Knowledge Graph – Zugriffsdokumentation](https://changelog-dzt-kg.readme.io/docs/how-to-access-the-data)",
+    "- **Ressource (DZT):** [SPARQL-Endpunkt](https://proxy.opendatagermany.io/api/ts/v1/kg/sparql)",
+    "- **Open Data Portal (Reviere):** [Hessisches Open-Data-Portal](https://opendata.hessen.de/)",
+    "- **Datensatz (Reviere):** [Jagdbezirke Wetteraukreis](https://opendata.hessen.de/dataset/jagdbezirke-wetteraukreis1)",
+    "- **Ressource (Reviere):** [GeoJSON-Abruf (OGC API Features)](https://www.geoportal.hessen.de/spatial-objects/874/collections/ft1:Jagdbezirke/items?f=json)",
+    "- **Verordnung (Schonzeiten):** [JagdzeitV 1977 (Bundesgit)](https://bundestag.github.io/gesetze/j/jagdzeitv_1977/)",
+    "",
+    "Die Revierdaten des Wetteraukreises stehen unter der Datenlizenz Deutschland – Namensnennung – Version 2.0 (dl-de/by-2-0). Der DZT Knowledge Graph enthält keine Reviergrenzen, Pächter oder Sperrzeiten; die Jagdzeiten-Tabelle wird live aus der JagdzeitV 1977 geparst (Bundesrahmen, Landesrecht beachten); das jeweilige Zuständigkeitsgebiet ist beim genannten Forstamt zu erfragen.",
+    "",
+    "## Open Data App",
+    "",
+    "Diese App ist für den [Open Data App Store](https://open-data-app-store.de/) vorbereitet. Der DZT-Abruf läuft dort über den Store-Relay; ein eigener API-Key ist für den Betrieb nicht nötig.",
+    "",
+    "Die App ist Open Source:",
+    "",
+    "- [Open Data App Store](https://open-data-app-store.de/) – die Plattform",
+    "- [Alle Open Data Apps auf GitHub](https://github.com/open-data-apps) – die Organisation",
+    "- [oda-jagdbezirke](https://github.com/open-data-apps/oda-jagdbezirke) – das Repository dieser App"
+  ],
+  "tags-funktion": [
+    "Karte",
+    "Kennzahlen",
+    "Tabelle"
+  ],
+  "tags-dateityp": [
+    "API",
+    "JSON",
+    "GeoJSON"
+  ],
+  "tags-datenart": [
+    "Geodaten",
+    "Umwelt"
+  ],
+  "screenshots": [
+    "assets/Desktop_Screenshot.png",
+    "assets/Mobile_Screenshot.png"
+  ],
+  "daten": {
+    "beschreibung": "Erwartet Forstamt-POIs aus dem DZT Knowledge Graph (Name, Adresse, Geo-Koordinate, Kontakt) sowie eine Revier-GeoJSON (FeatureCollection mit Polygonen, z. B. JB_NAME, JB_NUMMER, FLAECHE, KONTAKTE). Die Jagdzeiten stammen aus dem Markdown der JagdzeitV 1977 (Bundesgit) und werden live geparst.",
+    "schema": "assets/schema.json",
+    "beispiel": "DZT-POI mit schema:name, schema:address, schema:geo und schema:telephone; Revier-Feature mit properties JB_NAME (z. B. Nieder-Weisel I Feld GJB), JB_NUMMER, FLAECHE und KONTAKTE-Link. JagdzeitV-Markdown mit §-1-Liste (Wildart-Gruppen, Untergruppen, vom-bis-Zeiträume). Unbekannte Revier-Properties werden generisch unter Weitere Angaben dargestellt.",
+    "beispiel-url": "https://www.geoportal.hessen.de/spatial-objects/874/collections/ft1:Jagdbezirke/items?f=json&limit=1"
+  },
+  "branding-css": "",
+  "api-version": "1",
+  "odas-services": [
+    "proxy",
+    "ki",
+    "mail",
+    "tourismus-deutschland",
+    "email-atuh",
+    "storage"
+  ],
+  "instanz-config": {
+    "seitentitel": {
+      "label": "Seitentitel",
+      "category": "allgemein",
+      "hilfe": "Der Seitentitel wird im Browser-Tab der App angezeigt.",
+      "default": "Jagdbezirke",
+      "format": {
+        "typ": "string",
+        "laenge": 80
+      },
+      "erforderlich": "ja"
+    },
+    "titel": {
+      "label": "Titel",
+      "category": "allgemein",
+      "hilfe": "Der Titel wird in der Kopfzeile der App angezeigt.",
+      "default": "Jagdbezirke",
+      "format": {
+        "typ": "string",
+        "laenge": 80
+      },
+      "erforderlich": "ja"
+    },
+    "icon": {
+      "label": "Portal-Logo",
+      "category": "allgemein",
+      "hilfe": "Das Logo wird links oben in der Kopfzeile angezeigt und führt zur Startseite.",
+      "default": "{{{odp.logo}}}",
+      "format": {
+        "typ": "image",
+        "hoehe": 100,
+        "breite": 300
+      },
+      "erforderlich": "ja"
+    },
+    "kontakt": {
+      "label": "Kontakt",
+      "category": "kontakt-rechtliches",
+      "hilfe": "Der Markdown-Inhalt wird im Menüpunkt Kontakt angezeigt.",
+      "default": [
+        "_multiline_",
+        "Sie haben Fragen, Hinweise oder Verbesserungsvorschläge zu dieser App? Wenden Sie sich gern an den Anbieter des Open Data Portals.",
+        "",
+        "- Tel.: [{{odp.anbieter.tel}}](tel:{{odp.anbieter.tel}})",
+        "- E-Mail: [{{odp.anbieter.email}}](mailto:{{odp.anbieter.email}})"
+      ],
+      "format": {
+        "typ": "markdown"
+      },
+      "erforderlich": "ja"
+    },
+    "beschreibung": {
+      "label": "Beschreibung",
+      "category": "beschreibung",
+      "hilfe": "Der Markdown-Inhalt wird im Menüpunkt Über diese App angezeigt.",
+      "default": [
+        "_multiline_",
+        "Die Jagdbezirke-App zeigt die Jagdrevier-Grenzen der verknüpften kommunalen Quelle auf einer interaktiven Karte, findet die nächstgelegenen Forstämter und Forstreviere aus dem Knowledge Graph der Deutschen Zentrale für Tourismus (DZT) und erklärt in einem Ratgeber-Teil die gesetzlichen Schonzeiten sowie das richtige Verhalten im Jagdgebiet.",
+        "",
+        "Für wen ist diese App? Sie richtet sich an Spaziergängerinnen und Spaziergänger, Hundehalter, Reiterinnen und Reiter sowie Kommunen und Tourismusstellen, die wissen möchten, wo Jagdgebiete liegen und an wen man sich wenden kann. Besondere Datenkenntnisse sind für die Nutzung nicht erforderlich.",
+        "",
+        "## Methodik",
+        "",
+        "Der konfigurierte Ort wird beim Start über die Geokodierungs-Schnittstelle von OpenStreetMap (Nominatim) aufgelöst. Mit den Koordinaten stellt die App eine Umkreisabfrage an den DZT Knowledge Graph und lädt Forstamt-POIs mit Adresse und Kontakt in der Nähe. Parallel lädt sie die konfigurierte Revier-GeoJSON (Standard: Wetteraukreis) und zeichnet die Bezirksgrenzen als Polygone auf dieselbe Leaflet-Karte. Ist keine Revier-Quelle verknüpft, arbeitet die App im DZT-pur-Modus weiter und weist darauf hin.",
+        "",
+        "Die Schonzeiten-Tabelle bildet den Bundesrahmen ab; je Bundesland gelten abweichende Zeiten (Landesrecht). Die App gibt keine Rechtsberatung, sondern nennt die zuständige Stelle (Forstamt, untere Jagdbehörde). KPI-Kacheln fassen zusammen: Anzahl Forstämter im Umkreis, nächstes Amt mit Entfernung, Anzahl Reviere und aktuell geltende Schonzeiten in diesem Monat.",
+        "",
+        "## Datenquelle",
+        "",
+        "Die Forstamt-Kontakte stammen aus dem DZT Knowledge Graph, die Reviergrenzen aus der verknüpften kommunalen Quelle (Standard: Wetteraukreis):",
+        "",
+        "- **Open Data Portal (DZT):** [Open Data Destination Germany](https://open-data-germany.org/knowledge-graphen/)",
+        "- **Datensatz (DZT):** [DZT Knowledge Graph – Zugriffsdokumentation](https://changelog-dzt-kg.readme.io/docs/how-to-access-the-data)",
+        "- **Ressource (DZT):** [SPARQL-Endpunkt](https://proxy.opendatagermany.io/api/ts/v1/kg/sparql)",
+        "- **Open Data Portal (Reviere):** [Hessisches Open-Data-Portal](https://opendata.hessen.de/)",
+        "- **Datensatz (Reviere):** [Jagdbezirke Wetteraukreis](https://opendata.hessen.de/dataset/jagdbezirke-wetteraukreis1)",
+        "- **Ressource (Reviere):** [GeoJSON-Abruf (OGC API Features)](https://www.geoportal.hessen.de/spatial-objects/874/collections/ft1:Jagdbezirke/items?f=json)",
+        "- **Verordnung (Schonzeiten):** [JagdzeitV 1977 (Bundesgit)](https://bundestag.github.io/gesetze/j/jagdzeitv_1977/)",
+        "",
+        "Die Revierdaten des Wetteraukreises stehen unter der Datenlizenz Deutschland – Namensnennung – Version 2.0 (dl-de/by-2-0). Der DZT Knowledge Graph enthält keine Reviergrenzen, Pächter oder Sperrzeiten; die Jagdzeiten-Tabelle wird live aus der JagdzeitV 1977 geparst (Bundesrahmen, Landesrecht beachten); das jeweilige Zuständigkeitsgebiet ist beim genannten Forstamt zu erfragen.",
+        "",
+        "## Open Data App",
+        "",
+        "Diese App ist für den [Open Data App Store](https://open-data-app-store.de/) vorbereitet. Der DZT-Abruf läuft dort über den Store-Relay; ein eigener API-Key ist für den Betrieb nicht nötig.",
+        "",
+        "Die App ist Open Source:",
+        "",
+        "- [Open Data App Store](https://open-data-app-store.de/) – die Plattform",
+        "- [Alle Open Data Apps auf GitHub](https://github.com/open-data-apps) – die Organisation",
+        "- [oda-jagdbezirke](https://github.com/open-data-apps/oda-jagdbezirke) – das Repository dieser App"
+      ],
+      "format": {
+        "typ": "markdown"
+      },
+      "erforderlich": "ja"
+    },
+    "impressum": {
+      "label": "Impressum",
+      "category": "kontakt-rechtliches",
+      "hilfe": "Der Markdown-Inhalt wird im Menüpunkt Impressum angezeigt.",
+      "default": [
+        "_multiline_",
+        "## Anbieter",
+        "",
+        "{{{odp.anbieter.orgName}}}  ",
+        "{{{odp.anbieter.orgUnit}}}",
+        "",
+        "{{odp.anbieter.strasse}}  ",
+        "{{odp.anbieter.plzort}}",
+        "",
+        "Website: [{{odp.anbieter.url}}]({{odp.anbieter.url}})",
+        "",
+        "## Ansprechperson",
+        "",
+        "{{odp.anbieter.kontakt-bezeichnung}}  ",
+        "{{odp.anbieter.name}}",
+        "",
+        "## Kontakt",
+        "",
+        "Tel.: {{odp.anbieter.tel}}  ",
+        "E-Mail: [{{odp.anbieter.email}}](mailto:{{odp.anbieter.email}})"
+      ],
+      "format": {
+        "typ": "markdown"
+      },
+      "erforderlich": "ja"
+    },
+    "datenschutz": {
+      "label": "Datenschutz",
+      "category": "kontakt-rechtliches",
+      "hilfe": "Der Markdown-Inhalt wird im Menüpunkt Datenschutz angezeigt.",
+      "default": [
+        "_multiline_",
+        "Diese App verarbeitet die angezeigten offenen Daten ausschließlich im Browser. Es werden keine Cookies gesetzt, keine Nutzungsstatistiken erhoben und keine Daten im Browser dauerhaft gespeichert.",
+        "",
+        "Alle für die Darstellung benötigten Programmbibliotheken werden mit der App ausgeliefert. Beim Aufruf werden dafür keine externen Server kontaktiert.",
+        "",
+        "Die Forstamt-Kontakte werden über den DZT-Relay des Open Data App Store abgerufen: Der Browser sendet die Anfrage an den Open Data App Store, der sie serverseitig – inklusive des dort hinterlegten API-Keys – an die DZT-Knowledge-Graph-Schnittstelle weiterleitet. Für die Auflösung des konfigurierten Orts wird zusätzlich die Geokodierungs-Schnittstelle von OpenStreetMap (Nominatim) direkt vom Browser aus kontaktiert. Die Reviergrenzen lädt der Browser direkt von der konfigurierten Revier-Quelle (Standard: Geoportal Hessen) bzw. über den ODAS-Proxy, je nach Einstellung `proxyAktiv`.",
+        "",
+        "### Beim Aufruf kontaktierte Drittanbieter",
+        "",
+        "Folgende externe Server werden kontaktiert. Dabei werden IP-Adresse und User-Agent der Besucher:innen an diese Anbieter übertragen:",
+        "",
+        "- **nominatim.openstreetmap.org** – Ortssuche (Geokodierung)",
+        "- **tile.openstreetmap.org** – Kartenkacheln",
+        "- **raw.githubusercontent.com** – Verordnungstext JagdzeitV 1977 (Bundesgit)",
+        "- **www.geoportal.hessen.de** – Reviergrenzen (Standard-Quelle; bei anderer Revier-Quelle deren Host)",
+        "",
+        "Die DZT-Knowledge-Graph-Schnittstelle **proxy.opendatagermany.io** wird nicht vom Browser, sondern serverseitig vom Open Data App Store kontaktiert."
+      ],
+      "format": {
+        "typ": "markdown"
+      },
+      "erforderlich": "ja"
+    },
+    "fusszeile": {
+      "label": "Fußzeile",
+      "category": "kontakt-rechtliches",
+      "hilfe": "Der Text wird am unteren Rand der App angezeigt.",
+      "default": "© {{jahr}} | Daten: DZT Knowledge Graph, Wetteraukreis (dl-de/by-2-0) | Entwicklung: {{app.developer.name}} | ODAS: {{odas.betreiber.name}}",
+      "format": {
+        "typ": "string",
+        "laenge": 255
+      },
+      "erforderlich": "ja"
+    },
+    "brandingCSS": {
+      "label": "Zusätzliches Branding-CSS",
+      "category": "sonstiges",
+      "hilfe": "Optionaler CSS-Code für die konkrete App-Instanz.",
+      "default": "",
+      "format": {
+        "typ": "string",
+        "laenge": 10000
+      },
+      "erforderlich": "nein"
+    },
+    "brandingCSSFile": {
+      "label": "Branding-CSS-Datei",
+      "category": "sonstiges",
+      "hilfe": "Optionale URL zu einer zusätzlichen CSS-Datei für die konkrete App-Instanz.",
+      "default": "",
+      "format": {
+        "typ": "url",
+        "laenge": 500
+      },
+      "erforderlich": "nein"
+    },
+    "urlDaten": {
+      "label": "URL zum Datensatz",
+      "category": "datenherkunft",
+      "hilfe": "Link zur Beschreibungsseite des Revier-Datensatzes im Open-Data-Portal (…/dataset/…) – nicht der API-Endpunkt. Wird in der App unter „Über diese App → Datenquelle“ verlinkt.",
+      "default": "https://opendata.hessen.de/dataset/jagdbezirke-wetteraukreis1",
+      "beispiel": "https://opendata.hessen.de/dataset/jagdbezirke-wetteraukreis1",
+      "format": {
+        "typ": "url",
+        "laenge": 500
+      },
+      "erforderlich": "nein"
+    },
+    "apiurls": {
+      "label": "URLs zu Datenressourcen",
+      "category": "datenherkunft",
+      "hilfe": "Der Eintrag dztSparql liefert die Forstamt-Kontakte aus dem DZT Knowledge Graph (SPARQL, Abruf in ODAS live über den Store-Relay /dzt). Der Eintrag jagdbezirke liefert die Reviergrenzen als GeoJSON (FeatureCollection mit Polygonen). Leere jagdbezirke-URL = DZT-pur-Modus ohne Revier-Polygone. Der Eintrag jagdzeiten liefert den Verordnungstext der JagdzeitV 1977 (Markdown, Bundesgit) für die live geparste Schonzeiten-Tabelle; leere URL = Hinweis statt Tabelle.",
+      "typ": "array",
+      "format": {
+        "typ": "url",
+        "laenge": 500
+      },
+      "urls": [
+        {
+          "name": "dztsparql",
+          "label": "SPARQL-Endpunkt (DZT)",
+          "default": "https://proxy.opendatagermany.io/api/ts/v1/kg/sparql",
+          "beispiel": "https://proxy.opendatagermany.io/api/ts/v1/kg/sparql",
+          "erforderlich": "ja"
+        },
+        {
+          "name": "jagdbezirke",
+          "label": "Jagdbezirke (GeoJSON)",
+          "default": "https://www.geoportal.hessen.de/spatial-objects/874/collections/ft1:Jagdbezirke/items?f=json",
+          "beispiel": "https://www.geoportal.hessen.de/spatial-objects/874/collections/ft1:Jagdbezirke/items?f=json&limit=1",
+          "erforderlich": "nein"
+        },
+        {
+          "name": "jagdzeiten",
+          "label": "Jagdzeiten (JagdzeitV 1977, Markdown)",
+          "default": "https://raw.githubusercontent.com/bundestag/gesetze/master/j/jagdzeitv_1977/index.md",
+          "beispiel": "https://raw.githubusercontent.com/bundestag/gesetze/master/j/jagdzeitv_1977/index.md",
+          "erforderlich": "nein"
+        }
+      ]
+    },
+    "proxyAktiv": {
+      "label": "ODAS-Proxy aktivieren",
+      "category": "datenherkunft",
+      "hilfe": "Mit ja läuft der Revier-Abruf über den ODAS-Proxy /odp-data (nur im ODAS-Live-System; beide Standard-Quellen sind in der Origin-Allowlist, da sie als apiurls-Einträge konfiguriert sind). Mit nein direkt im Browser (Standard-Quellen erlauben CORS). Lokal immer nein testen. Der DZT-Abruf nutzt immer den Store-Relay /dzt, unabhängig von dieser Einstellung.",
+      "default": "nein",
+      "format": {
+        "typ": "dropdown",
+        "optionen": [
+          "nein",
+          "ja"
+        ]
+      },
+      "erforderlich": "ja"
+    },
+    "ort": {
+      "label": "Ort",
+      "category": "sonstiges",
+      "hilfe": "Ortsname für die Forstamt-Umkreissuche (wird per Nominatim geokodiert). Beispiel passend zur Standard-Revierquelle: Friedberg (Hessen).",
+      "default": "Friedberg (Hessen)",
+      "format": {
+        "typ": "string",
+        "laenge": 80
+      },
+      "erforderlich": "ja"
+    },
+    "radiusKm": {
+      "label": "Umkreis in km",
+      "category": "sonstiges",
+      "hilfe": "Suchradius um den konfigurierten Ort für die Forstamt-Suche.",
+      "default": "25",
+      "format": {
+        "typ": "string",
+        "laenge": 5
+      },
+      "erforderlich": "ja"
+    },
+    "jagdHinweis": {
+      "label": "Kommunaler Jagdhinweis",
+      "category": "beschreibung",
+      "hilfe": "Freier Hinweis der Kommune, z. B. aktuelle Drückjagd-Termine oder Sperrungen (Markdown: -, [Text](URL); kein HTML). Leer = Baustein wird nicht angezeigt.",
+      "default": "",
+      "format": {
+        "typ": "markdown"
+      },
+      "erforderlich": "nein"
+    },
+    "datenquelleHinweis": {
+      "label": "Methodik / Datenquelle-Hinweis",
+      "category": "beschreibung",
+      "hilfe": "Herkunft, Erhebungsmethode, Limitierungen (Markdown: ##, -, [Text](URL); kein HTML). Leer = ausgeblendet.",
+      "default": "Die Forstamt-Kontakte stammen aus dem DZT Knowledge Graph, einem gemeinsamen Projekt der Deutschen Zentrale für Tourismus und der Landesmarketingorganisationen. Der Graph enthält **keine** Reviergrenzen, Pächter oder Sperrzeiten – das jeweilige Zuständigkeitsgebiet ist beim genannten Forstamt zu erfragen.\n\nDie Reviergrenzen stammen aus der verknüpften kommunalen Quelle (Standard: Wetteraukreis, 236 Reviere, Datenlizenz Deutschland – Namensnennung – Version 2.0). Die Schonzeiten-Tabelle wird live aus der JagdzeitV 1977 geparst und bildet den **Bundesrahmen** ab; je Bundesland gelten abweichende Zeiten – verbindlich Auskunft geben Forstamt und untere Jagdbehörde.",
+      "format": {
+        "typ": "markdown"
+      },
+      "erforderlich": "nein"
+    },
+    "datenStand": {
+      "label": "Datenstand",
+      "category": "beschreibung",
+      "hilfe": "Freitext-Datum, z.B. 'Stand: Januar 2025'. Leer = ausgeblendet.",
+      "default": "Stand: Abruf bei den Datenquellen (DZT Knowledge Graph, Wetteraukreis)",
+      "format": {
+        "typ": "string",
+        "laenge": 60
+      },
+      "erforderlich": "nein"
+    },
+    "weiterfuehrendeLinks": {
+      "label": "Weiterführende Links",
+      "category": "beschreibung",
+      "hilfe": "Verwandte Datensätze / Hintergrundquellen (Markdown: [Text](URL); kein HTML). Leer = ausgeblendet.",
+      "default": "- [DZT Knowledge Graph – Übersicht](https://open-data-germany.org/knowledge-graphen/)\n- [Jagdbezirke Wetteraukreis (Datensatz)](https://opendata.hessen.de/dataset/jagdbezirke-wetteraukreis1)\n- [DJV – Jagdzeiten](https://www.jagdverband.de/jagd/jagdzeiten)\n- [Bundesjagdgesetz (gesetze-im-internet.de)](https://www.gesetze-im-internet.de/bjagdg/)\n- [Open Data Tourism Alliance (ODTA)](https://odta.io/)\n- [JagdzeitV 1977 – Verordnungstext (Bundesgit)](https://bundestag.github.io/gesetze/j/jagdzeitv_1977/)",
+      "format": {
+        "typ": "markdown"
+      },
+      "erforderlich": "nein"
+    }
+  }
+}
