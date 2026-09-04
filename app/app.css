@@ -60,6 +60,10 @@
   overflow-wrap: anywhere;
 }
 
+.jb-status {
+  overflow-wrap: anywhere;
+}
+
 @media (max-width: 576px) {
   .jb-karte {
     height: 300px !important;

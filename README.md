@@ -29,6 +29,15 @@ Die Konfiguration wird vom ODAS geladen. Die App zeigt folgende Inhalte:
 
 ---
 
+## Screenshots
+Die App im Desktop- und Mobil-Layout (Beispieldaten: Wetteraukreis, DZT Knowledge Graph):
+
+![Jagdbezirke Desktop-Ansicht](assets/Desktop_Screenshot.png)
+
+![Jagdbezirke Mobil-Ansicht](assets/Mobile_Screenshot.png)
+
+---
+
 ## Für wen ist diese App?
 Diese App richtet sich an Spaziergängerinnen und Spaziergänger, Hundehalter, Reiterinnen und Reiter sowie Kommunen und Tourismusstellen, die wissen möchten, wo Jagdgebiete liegen und an wen man sich wenden kann. Voraussetzung ist kein spezielles Datenwissen.
 

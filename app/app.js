@@ -109,10 +109,10 @@ function renderJbShell(state) {
     '<div class="row g-3 mb-3">' +
     kpiCard(uid, "jb-kpi-forst", "Forstämter im Umkreis", "DZT Knowledge Graph") +
     kpiCard(uid, "jb-kpi-revier", "Reviere", "kommunale Quelle") +
-    kpiCard(uid, "jb-kpi-schon", "Aktuell in Schonzeit", "Tabellenzeilen · JagdzeitV 1977") +
+    kpiCard(uid, "jb-kpi-schon", "Tierarten in Schonzeit", "JagdzeitV 1977", "jb-kpi-schon-sub") +
     "</div>" +
     '<div id="jb-hinweis-' + uid + '"></div>' +
-    '<div id="jb-status-' + uid + '" class="text-muted small mb-3">Forstämter werden gesucht …</div>' +
+    '<div id="jb-status-' + uid + '" class="jb-status text-muted small mb-3">Forstämter werden gesucht …</div>' +
     '<div class="visually-hidden" role="status" id="jb-live-' + uid + '"></div>' +
     '<div class="row g-3 mb-2">' +
     '<div class="col-12 col-lg-8">' +
@@ -161,15 +161,19 @@ function renderJbShell(state) {
   );
 }
 
-function kpiCard(uid, id, label, kontext) {
+function kpiCard(uid, id, label, kontext, subId) {
   return (
     '<div class="col-12 col-sm-6 col-lg-4">' +
     '<div class="card h-100 shadow-sm border-0"><div class="card-body">' +
     '<div class="text-muted small mb-1">' + escapeHtml(label) + "</div>" +
     '<div class="h3 mb-1" id="' + id + "-" + uid + '">—</div>' +
-    '<div class="small text-muted">' + escapeHtml(kontext) + "</div>" +
+    '<div class="small text-muted"' + (subId ? ' id="' + subId + "-" + uid + '"' : "") + '>' + escapeHtml(kontext) + "</div>" +
     "</div></div></div>"
   );
+}
+
+function jbStandDatum(datum) {
+  return "Stand: " + datum.getDate() + ". " + jbMonatsname(datum.getMonth() + 1) + " " + datum.getFullYear() + " · JagdzeitV 1977";
 }
 
 function jbEl(state, name) {
@@ -181,7 +185,7 @@ function setJbStatus(state, text, kind) {
   if (!el) return;
   // Hinweiszeile statt Alert-Box (KPI darüber zeigt die Zahl bereits).
   // Echte Fehler kommen über renderOdasFehler() als eigene Alert-Box.
-  el.className = "text-muted small mb-3";
+  el.className = "jb-status text-muted small mb-3";
   el.textContent = text;
 }
 
@@ -205,12 +209,14 @@ async function ladeForstaemter(state, sparqlUrl, ort) {
     state.forstaemter = parseForstRows(rows, center, radiusKm);
     state.loaded = true;
     if (state.forstaemter.length === 0) {
-      setJbStatus(state, "Keine Forstämter im Umkreis von " + radiusKm + " km um „" + center.label + "“ gefunden.", "info");
+      setJbStatus(state, "Keine Forstämter um " + center.label + " gefunden (Radius " + radiusKm + " km).", "info");
       const liste = jbEl(state, "liste");
       if (liste) liste.innerHTML = '<div class="p-3 text-muted small">Keine Daten gefunden.</div>';
       return;
     }
-    setJbStatus(state, state.forstaemter.length + " Forstämter im Umkreis von " + radiusKm + " km um „" + center.label + "“.", "info");
+    setJbStatus(state, state.forstaemter.length === 1
+      ? "1 Forstamt · " + radiusKm + " km um " + center.label + "."
+      : state.forstaemter.length + " Forstämter · " + radiusKm + " km um " + center.label + ".", "info");
     renderJbListe(state);
     await initJbKarte(state);
     aktualisiereKpis(state);
@@ -239,7 +245,7 @@ async function jbGeocode(ort, signal) {
   const data = await response.json();
   if (!Array.isArray(data) || data.length === 0) return null;
   const treffer = data[0];
-  return { lat: Number(treffer.lat), lon: Number(treffer.lon), label: String(treffer.display_name || ort).split(",").slice(0, 2).join(",") };
+  return { lat: Number(treffer.lat), lon: Number(treffer.lon), label: String(treffer.display_name || ort).split(",")[0] };
 }
 
 // Der Relay hängt an https://proxy.opendatagermany.io/api/ an — der konfigurierte
@@ -828,6 +834,8 @@ function aktualisiereKpis(state) {
     const monat = heute.getMonth() + 1;
     const inSchonzeit = state.jagdzeilen.filter((z) => !z.intervalle.some((iv) => jbIntervallDeckt(iv, tag, monat))).length;
     schon.textContent = inSchonzeit + " von " + state.jagdzeilen.length;
+    const sub = jbEl(state, "kpi-schon-sub");
+    if (sub) sub.textContent = jbStandDatum(heute);
   }
 }
 
