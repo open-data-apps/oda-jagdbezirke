@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.3 - 2026-09-07
+- **FIX:** Frictionless-Härtung: alle 3 Slots mit Code-Beleg dokumentiert (SPARQL-Basis per wanderwege-Präzedenz, OGC-`f=json` vom Validator nicht erkannt, Markdown wird live geparst — je dokumentierte Ausnahme, Rot-Beleg im REPORT); `f=json`-Lücke als Store-Hinweis aufgenommen.
+
 ## 1.0.2 - 2026-09-07
 - FIX: Lint-Gate grün (`jagdHinweis`-Kategorie registriert, `apiurls`-Hilfe im Satzbau „Diese App benötigt …")
 
