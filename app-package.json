@@ -3,7 +3,7 @@
   "app-entwickler-name": "ondics-gmbh",
   "name-in-url": "jagdbezirke",
   "name": "Jagdbezirke",
-  "app-version": "1.0.1",
+  "app-version": "1.0.2",
   "app-package-version": "2",
   "odas-app-icon": "assets/odas-app-icon.svg",
   "app-icon": "assets/odas-app-icon.svg",
@@ -281,7 +281,7 @@
     "apiurls": {
       "label": "URLs zu Datenressourcen",
       "category": "datenherkunft",
-      "hilfe": "Der Eintrag dztSparql liefert die Forstamt-Kontakte aus dem DZT Knowledge Graph (SPARQL, Abruf in ODAS live über den Store-Relay /dzt). Der Eintrag jagdbezirke liefert die Reviergrenzen als GeoJSON (FeatureCollection mit Polygonen). Leere jagdbezirke-URL = DZT-pur-Modus ohne Revier-Polygone. Der Eintrag jagdzeiten liefert den Verordnungstext der JagdzeitV 1977 (Markdown, Bundesgit) für die live geparste Schonzeiten-Tabelle; leere URL = Hinweis statt Tabelle.",
+      "hilfe": "Diese App benötigt drei Datenquellen (unten als Einträge). Der Eintrag dztSparql liefert die Forstamt-Kontakte aus dem DZT Knowledge Graph (SPARQL-Wissensdatenbank, Abruf in ODAS live über den Store-Relay /dzt). Der Eintrag jagdbezirke liefert die Reviergrenzen als GeoJSON (FeatureCollection mit Polygonen). Leere jagdbezirke-URL = DZT-pur-Modus ohne Revier-Polygone. Der Eintrag jagdzeiten liefert den Verordnungstext der JagdzeitV 1977 (Markdown, Bundesgit) für die live geparste Schonzeiten-Tabelle; leere URL = Hinweis statt Tabelle.",
       "typ": "array",
       "format": {
         "typ": "url",
