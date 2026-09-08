@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.5 - 2026-09-08
+- **FIX:** `safeHttpUrl` für DZT-`schema:url`-Links (F-90): `javascript:`/`data:`-Ziele werden nicht mehr als `href` gerendert, sondern als Text.
+- **FIX:** `jbInstances` wird bei `onPageLeave` geleert (F-91) — Registry hielt bislang detached DOM und Datenarrays über Seitenwechsel hinweg.
+
 ## 1.0.4 - 2026-09-08
 - **FIX:** Datenschutz-Dreiklang angeglichen: einheitliche Aufzählungszeichen, `raw.githubusercontent.com` auch im README, B3-Satz („direkt aus der konfigurierten Datenquelle“) in Paket und lokaler Config; App im Vendor-Host-Manifest registriert (Doku-/Host-Check grün).
 

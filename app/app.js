@@ -81,6 +81,7 @@ function onPageLeave(page) {
     }
     state.markerLayer = null;
   });
+  jbInstances.clear();
 }
 
 // ---------------------------------------------------------------------------
@@ -450,7 +451,12 @@ function jbForstPopupHtml(amt) {
   if (Number.isFinite(amt.distanzKm)) zeilen.push(escapeHtml(formatiereKm(amt.distanzKm)) + " vom Suchort");
   if (amt.tel) zeilen.push('Telefon: <a href="tel:' + escapeHtml(amt.tel.replace(/[\s/()-]/g, "")) + '">' + escapeHtml(amt.tel) + "</a>");
   if (amt.mail) zeilen.push('E-Mail: <a href="mailto:' + escapeHtml(amt.mail) + '">' + escapeHtml(amt.mail) + "</a>");
-  if (amt.web) zeilen.push('Web: <a href="' + escapeHtml(amt.web) + '" target="_blank" rel="noopener">' + escapeHtml(amt.web) + "</a>");
+  if (amt.web) {
+    const webHref = safeHttpUrl(amt.web);
+    zeilen.push(webHref
+      ? 'Web: <a href="' + escapeHtml(webHref) + '" target="_blank" rel="noopener">' + escapeHtml(amt.web) + "</a>"
+      : "Web: " + escapeHtml(amt.web));
+  }
   if (amt.descr) zeilen.push(escapeHtml(amt.descr));
   zeilen.push('<span class="text-muted">Zuständigkeitsgebiet beim Amt erfragen (DZT enthält keine Reviergrenzen).</span>');
   return '<div class="jb-popup"><strong>' + escapeHtml(amt.name) + "</strong><br>" + zeilen.join("<br>") + "</div>";
@@ -1218,6 +1224,13 @@ function escapeHtml(value = "") {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
+}
+
+// Nur http(s)-Ziele als Linkziel zulassen (F-35-Konvention): die DZT-Quelle
+// liefert schema:url-Werte, die sonst auch ein javascript:-Ziel sein könnten.
+function safeHttpUrl(value) {
+  const s = String(value || "").trim();
+  return /^https?:\/\//i.test(s) ? s : "";
 }
 
 /*
