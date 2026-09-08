@@ -134,13 +134,15 @@ Beim Aufruf dieser App werden keine externen Server für Programmbibliotheken
 kontaktiert; alle Bibliotheken werden lokal aus `app/vendor/` ausgeliefert.
 
 Der DZT-Abruf läuft in ODAS live über den Store-Relay `/dzt` (der API-Key bleibt
-serverseitig im Store); lokal existiert dieser Relay nicht. Die Revier-Quelle wird
-direkt bzw. über den ODAS-Proxy abgerufen, je nach `proxyAktiv`.
+serverseitig im Store); lokal existiert dieser Relay nicht. Die Reviergrenzen lädt der
+Browser direkt aus der konfigurierten Datenquelle bzw. über den ODAS-Proxy, je nach
+`proxyAktiv`.
 
 Zusätzlich kontaktiert werden:
 
 - `nominatim.openstreetmap.org` — Ortssuche (Geokodierung)
 - `tile.openstreetmap.org` — Kartenkacheln (OpenStreetMap)
+- `raw.githubusercontent.com` — Verordnungstext JagdzeitV 1977 (Bundesgit)
 - `www.geoportal.hessen.de` — Reviergrenzen (Standard-Quelle; bei anderer Revier-Quelle deren Host)
 
 Die DZT-Schnittstelle `proxy.opendatagermany.io` wird nicht vom Browser, sondern
