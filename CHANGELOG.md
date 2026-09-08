@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.6 - 2026-09-08
+- **FIX:** Typ-Erwartung „Statische Datei“ akzeptiert jetzt auch `.md`-Quellen (F-97): die gültige JagdzeitV-Markdown-URL wurde bei Ladefehlern fälschlich als Typ-Mismatch gemeldet.
+
 ## 1.0.5 - 2026-09-08
 - **FIX:** `safeHttpUrl` für DZT-`schema:url`-Links (F-90): `javascript:`/`data:`-Ziele werden nicht mehr als `href` gerendert, sondern als Text.
 - **FIX:** `jbInstances` wird bei `onPageLeave` geleert (F-91) — Registry hielt bislang detached DOM und Datenarrays über Seitenwechsel hinweg.

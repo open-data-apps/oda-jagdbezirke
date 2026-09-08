@@ -1096,7 +1096,7 @@ function validateUrlTypErwartung(url, erwarteterTyp) {
     "wfs": /service=WFS/i,
     "geojson": /\.geojson(\?|$)|[?&]f=json\b|\/items(\?|$)/i,
     "sparql": /\/api\/ts\/v1\/kg\/sparql/i,
-    "csv-zip": /\.(csv|json|zip)(\?|$)/i
+    "csv-zip": /\.(csv|json|zip|md)(\?|$)/i
   };
   const re = checks[erwarteterTyp];
   if (!re) return null;
