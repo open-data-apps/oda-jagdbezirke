@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.7 - 2026-09-08
+- **FIX:** Geocoding-Fehler (F-107, Live-Fund): Nominatim antwortet unter Last mit HTTP 429; die CORS-lose HTML-Fehlerseite wird vom Browser als `Failed to fetch` gemeldet und löste den irreführenden CORS/Proxy-Hinweis aus. `jbGeocode` fängt den Netzwerkfehler jetzt und meldet die tatsächliche Ursache (1.0.6 -> 1.0.7).
+
 ## 1.0.6 - 2026-09-08
 - **FIX:** Typ-Erwartung „Statische Datei“ akzeptiert jetzt auch `.md`-Quellen (F-97): die gültige JagdzeitV-Markdown-URL wurde bei Ladefehlern fälschlich als Typ-Mismatch gemeldet.
 

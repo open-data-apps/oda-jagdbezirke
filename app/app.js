@@ -241,7 +241,16 @@ function jbFehlerAnzeigen(state, error, sparqlUrl) {
 
 async function jbGeocode(ort, signal) {
   const url = "https://nominatim.openstreetmap.org/search?" + new URLSearchParams({ format: "jsonv2", limit: "1", q: ort }).toString();
-  const response = await fetch(url, { headers: { Accept: "application/json" }, signal });
+  let response;
+  try {
+    response = await fetch(url, { headers: { Accept: "application/json" }, signal });
+  } catch (error) {
+    if (error && error.name === "AbortError") throw error;
+    // F-107: Nominatim antwortet bei Last mit 429; die HTML-Fehlerseite hat
+    // keine CORS-Header, der Browser wirft deshalb "Failed to fetch". Ohne
+    // diese Zuordnung erschiene faelschlich der CORS-/Proxy-Hinweis.
+    throw new Error("Der Geocoding-Dienst (Nominatim) ist derzeit nicht erreichbar oder limitiert. Bitte später erneut versuchen.");
+  }
   if (!response.ok) throw new Error("Die Ortssuche antwortet mit HTTP " + response.status + ".");
   const data = await response.json();
   if (!Array.isArray(data) || data.length === 0) return null;
