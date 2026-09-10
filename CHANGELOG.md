@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.8 - 2026-09-10
+- **FIX:** Karten-Viewport gehört jetzt dem Suchraum (Ort + Radius), nicht mehr den Revier-Daten: `renderReviere` hat den `setView(Ort)`-Viewport per bedingungslosem `fitBounds(Revier-Bounds)` mit dem ortsfesten Wetteraukreis-Ausschnitt überschrieben — die Karte zeigte dadurch immer das Gleiche, egal welcher Ort eingestellt war. Neu: `jbSuchraumBounds` + `zentriereKarteAufSuchraum` (Wanderwege-Muster), Karten- und Revier-Hinweis nennen Ort, Radius und Abstand zum Datensatz (Überlappungs-/Außerhalb-Satz). Verifiziert im Dev-Store mit Friedberg (Hessen) und München.
+
 ## 1.0.7 - 2026-09-08
 - **FIX:** Geocoding-Fehler (F-107, Live-Fund): Nominatim antwortet unter Last mit HTTP 429; die CORS-lose HTML-Fehlerseite wird vom Browser als `Failed to fetch` gemeldet und löste den irreführenden CORS/Proxy-Hinweis aus. `jbGeocode` fängt den Netzwerkfehler jetzt und meldet die tatsächliche Ursache (1.0.6 -> 1.0.7).
 

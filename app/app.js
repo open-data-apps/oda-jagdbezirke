@@ -520,9 +520,24 @@ async function ladeReviere(state) {
     if (!state.map && state.center) await initJbKarte(state);
     renderReviere(state);
     if (hinweis) {
-      hinweis.textContent = features.length
-        ? "Revier-Polygone: " + features.length + " Bezirke (Klick für Details). Quelle: kommunaler Datensatz, dl-de/by-2-0."
-        : "Revier-Quelle erreichbar, aber ohne Bezirke.";
+      const radius = Math.max(1, Math.round(Number(state.config.radiusKm) || JB_DEFAULT_RADIUS_KM));
+      const suchort = state.center ? state.center.label : String(state.config.ort || "").trim();
+      if (!features.length) {
+        hinweis.textContent = "Revier-Quelle erreichbar, aber ohne Bezirke.";
+      } else {
+        let abstand = "";
+        try {
+          const b = state.revierLayer ? state.revierLayer.getBounds() : null;
+          const mitte = b ? b.getCenter() : null;
+          if (mitte && state.center) {
+            const d = haversineKm(state.center.lat, state.center.lon, mitte.lat, mitte.lng);
+            abstand = d > radius
+              ? " Der Datensatz (Standard: Wetteraukreis) liegt ca. " + Math.round(d) + " km vom Suchort entfernt und damit außerhalb des " + radius + "-km-Umkreises."
+              : " Der Datensatz (Standard: Wetteraukreis) überlappt den " + radius + "-km-Umkreis um " + suchort + ".";
+          }
+        } catch (_e) {}
+        hinweis.textContent = "Revier-Polygone: " + features.length + " Bezirke (Klick für Details). Quelle: kommunaler Datensatz, dl-de/by-2-0." + abstand;
+      }
     }
   } catch (error) {
     if (error && error.name === "AbortError") return;
@@ -569,7 +584,14 @@ function renderReviere(state) {
       state.revierLayerRefs.push(layer);
     },
   }).addTo(state.map);
-  try { state.map.fitBounds(state.revierLayer.getBounds(), { padding: [20, 20] }); } catch (_e) {}
+  // Der Viewport gehört dem Suchraum (Ort + Radius), nicht den Revier-Daten:
+  // die Quelle ist ortsfest (Standard: Wetteraukreis) und würde sonst jeden
+  // konfigurierten Ort mit ihrem eigenen Ausschnitt überschreiben.
+  if (state.center) {
+    zentriereKarteAufSuchraum(state);
+  } else {
+    try { state.map.fitBounds(state.revierLayer.getBounds(), { padding: [20, 20] }); } catch (_e) {}
+  }
 }
 
 function revierDetailDaten(feature) {
@@ -924,6 +946,31 @@ function ladeLeaflet() {
   return jbLeafletPromise;
 }
 
+function jbSuchraumBounds(center, radiusKm) {
+  if (!window.L || !center || !Number.isFinite(center.lat) || !Number.isFinite(center.lon)) return null;
+  const radius = Math.max(1, Math.round(Number(radiusKm) || JB_DEFAULT_RADIUS_KM));
+  const latDelta = radius / 111;
+  const lonDelta = radius / (111 * Math.cos((center.lat * Math.PI) / 180));
+  return window.L.latLngBounds(
+    [center.lat - latDelta, center.lon - lonDelta],
+    [center.lat + latDelta, center.lon + lonDelta]
+  );
+}
+
+function zentriereKarteAufSuchraum(state) {
+  if (!state.map || !state.center || !window.L) return;
+  const bounds = jbSuchraumBounds(state.center, state.config.radiusKm);
+  if (!bounds) return;
+  try {
+    state.map.fitBounds(bounds, { padding: [20, 20] });
+  } catch (_e) {}
+}
+
+function jbRadiusText(state) {
+  const radius = Math.max(1, Math.round(Number(state.config.radiusKm) || JB_DEFAULT_RADIUS_KM));
+  return "Umkreis " + radius + " km";
+}
+
 async function initJbKarte(state) {
   const el = jbEl(state, "karte");
   const hinweis = jbEl(state, "kartenhinweis");
@@ -953,7 +1000,8 @@ async function initJbKarte(state) {
       state.markerLayer.addLayer(marker);
       state.forstMarker[idx] = marker;
     });
-    if (hinweis) hinweis.textContent = "Marker: Forstämter. Quelle Kartenkacheln: OpenStreetMap.";
+    zentriereKarteAufSuchraum(state);
+    if (hinweis) hinweis.textContent = "Karte: " + jbRadiusText(state) + " um " + state.center.label + ". Marker: Forstämter. Kacheln: OpenStreetMap.";
   } catch (error) {
     if (hinweis) hinweis.textContent = "Karte konnte nicht initialisiert werden.";
   }
