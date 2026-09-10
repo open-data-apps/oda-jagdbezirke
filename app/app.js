@@ -532,8 +532,8 @@ async function ladeReviere(state) {
           if (mitte && state.center) {
             const d = haversineKm(state.center.lat, state.center.lon, mitte.lat, mitte.lng);
             abstand = d > radius
-              ? " Der Datensatz (Standard: Wetteraukreis) liegt ca. " + Math.round(d) + " km vom Suchort entfernt und damit außerhalb des " + radius + "-km-Umkreises."
-              : " Der Datensatz (Standard: Wetteraukreis) überlappt den " + radius + "-km-Umkreis um " + suchort + ".";
+              ? " Der konfigurierte Revier-Datensatz liegt ca. " + Math.round(d) + " km vom Suchort entfernt und damit außerhalb des " + radius + "-km-Umkreises."
+              : " Der konfigurierte Revier-Datensatz überlappt den " + radius + "-km-Umkreis um " + suchort + ".";
           }
         } catch (_e) {}
         hinweis.textContent = "Revier-Polygone: " + features.length + " Bezirke (Klick für Details). Quelle: kommunaler Datensatz, dl-de/by-2-0." + abstand;

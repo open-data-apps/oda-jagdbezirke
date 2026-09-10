@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.9 - 2026-09-10
+- **FIX:** Revier-Hinweis nennt den Datensatz nicht mehr hartkodiert „Wetteraukreis“, sondern neutral „konfigurierter Revier-Datensatz“ (H-1, Kosmetik bei Custom-Quellen).
+
 ## 1.0.8 - 2026-09-10
 - **FIX:** Verwaistes `app/vendor/chartjs/` (F-108, Template-Rest ohne Referenz, 204 K) entfernt — kleineres Liefer-ZIP.
 - **FIX:** Karten-Viewport gehört jetzt dem Suchraum (Ort + Radius), nicht mehr den Revier-Daten: `renderReviere` hat den `setView(Ort)`-Viewport per bedingungslosem `fitBounds(Revier-Bounds)` mit dem ortsfesten Wetteraukreis-Ausschnitt überschrieben — die Karte zeigte dadurch immer das Gleiche, egal welcher Ort eingestellt war. Neu: `jbSuchraumBounds` + `zentriereKarteAufSuchraum` (Wanderwege-Muster), Karten- und Revier-Hinweis nennen Ort, Radius und Abstand zum Datensatz (Überlappungs-/Außerhalb-Satz). Verifiziert im Dev-Store mit Friedberg (Hessen) und München.
